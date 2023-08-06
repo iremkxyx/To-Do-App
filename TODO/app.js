@@ -1,0 +1,71 @@
+var items = ['todo1', 'todo2', 'todo3', 'todo4'];
+
+var list = document.querySelector('#myList');
+
+items.forEach(function (item) {
+
+
+    CreateItem(item);
+
+
+});
+
+
+list.addEventListener('click', function (item) {
+
+    if (item.target.tagName == 'LI') {
+        item.target.classList.toggle('checked');
+        ToggleDeleteButton();//delete all
+    }
+
+});
+
+document.querySelector('#deleteAll').onclick=function(){
+    var element =document.querySelectorAll('.checked');
+    element.forEach(function(item){
+        item.style.display='none';
+    });
+}
+
+
+function ToggleDeleteButton() {
+    var checkedList = document.querySelectorAll('.checked');
+    if (checkedList.length > 0) {
+        document.querySelector('#deleteAll').classList.remove('d-none');
+    }
+    else {
+        document.querySelector('#deleteAll').classList.add('d-none');
+    }
+}
+
+document.querySelector('#btnAdd').onclick = function () {
+    var item = document.querySelector('#txtItem').value;//inputta yazan
+    if (item === '') {
+        alert('Lütfen bir değer giriniz');
+        return;
+
+    }
+
+    CreateItem(item);
+};
+
+function CreateItem(item) {
+    var li = document.createElement('li');
+    var t = document.createTextNode(item);
+    li.className = 'list-group-item';
+    li.appendChild(t);
+    list.appendChild(li);
+
+
+    var span = document.createElement('span');
+    var text = document.createTextNode('x');
+    span.className = 'close';
+    span.appendChild(text);
+    li.appendChild(span);
+
+    span.onclick = function () {
+        var li = this.parentElement;
+        li.style.display = 'none';  
+        li.classList.remove('checked');
+    }
+}
